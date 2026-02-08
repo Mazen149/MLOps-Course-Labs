@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/d0b0d1552d474405aeb9fc324fb89302/artifacts
+end_time: 1770473303057
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: active
+run_id: d0b0d1552d474405aeb9fc324fb89302
+run_name: logreg_maxIter_1000
+run_uuid: d0b0d1552d474405aeb9fc324fb89302
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770473230802
+status: 3
+tags: []
+user_id: mazen

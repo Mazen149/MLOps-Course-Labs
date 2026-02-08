@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/45421447282249b4886530cb5d82b392/artifacts
+deleted_time: 1770477992043
+end_time: 1770477953841
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: deleted
+run_id: 45421447282249b4886530cb5d82b392
+run_name: RF_ensemble
+run_uuid: 45421447282249b4886530cb5d82b392
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770477948359
+status: 3
+tags: []
+user_id: mazen

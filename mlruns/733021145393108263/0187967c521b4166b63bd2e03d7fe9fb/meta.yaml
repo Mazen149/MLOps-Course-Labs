@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/0187967c521b4166b63bd2e03d7fe9fb/artifacts
+end_time: 1770472146662
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: active
+run_id: 0187967c521b4166b63bd2e03d7fe9fb
+run_name: DT_shallow
+run_uuid: 0187967c521b4166b63bd2e03d7fe9fb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770472142990
+status: 3
+tags: []
+user_id: mazen

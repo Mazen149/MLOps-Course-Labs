@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1770477487482
+current_stage: None
+description: ''
+last_updated_timestamp: 1770477487482
+name: DT_shallow_model
+run_id: 0187967c521b4166b63bd2e03d7fe9fb
+run_link: ''
+source: mlflow-artifacts:/733021145393108263/0187967c521b4166b63bd2e03d7fe9fb/artifacts/model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/733021145393108263/0187967c521b4166b63bd2e03d7fe9fb/artifacts/model
+user_id: null
+version: 1

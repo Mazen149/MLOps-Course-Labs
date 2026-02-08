@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/29c45ee691b24486adb5f38063d3c474/artifacts
+deleted_time: 1770473463426
+end_time: 1770471759469
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: deleted
+run_id: 29c45ee691b24486adb5f38063d3c474
+run_name: flawless-lamb-977
+run_uuid: 29c45ee691b24486adb5f38063d3c474
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770471752206
+status: 3
+tags: []
+user_id: mazen

@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/f8930f9c07d447cdab64a8e59755ffb0/artifacts
+deleted_time: 1770477992046
+end_time: 1770477948251
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: deleted
+run_id: f8930f9c07d447cdab64a8e59755ffb0
+run_name: DT_deep
+run_uuid: f8930f9c07d447cdab64a8e59755ffb0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770477944356
+status: 3
+tags: []
+user_id: mazen

@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/733021145393108263/fe2824645a244928b4a7da2ac770fb48/artifacts
+deleted_time: 1770473463427
+end_time: 1770470696997
+entry_point_name: ''
+experiment_id: '733021145393108263'
+lifecycle_stage: deleted
+run_id: fe2824645a244928b4a7da2ac770fb48
+run_name: luxuriant-bass-107
+run_uuid: fe2824645a244928b4a7da2ac770fb48
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1770470660704
+status: 3
+tags: []
+user_id: mazen
