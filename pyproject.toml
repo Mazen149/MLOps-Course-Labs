@@ -8,7 +8,7 @@ dependencies = [
     "joblib>=1.5.3",
     "litestar[standard]>=2.21.1",
     "pydantic>=2.13.4",
-    "scikit-learn>=1.8.0",
+    "scikit-learn==1.6.1",
 ]
 
 [dependency-groups]
