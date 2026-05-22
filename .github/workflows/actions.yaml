@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pre-build-validation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Run lint
+        run: uv run ruff check .
+
+      - name: Run tests
+        run: uv run pytest tests/ -v --cov=app --cov=main --cov-report=term-missing
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: pre-build-validation
+    if: github.event_name == 'push'
+    outputs:
+      image-uri: ${{ steps.image.outputs.image-uri }}
+    env:
+      AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      ECR_REPOSITORY: churn-prediction-18
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: v1.0
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Push Docker image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: churn-prediction-21
+        run: |
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Export image URI
+        id: image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: churn-prediction-21
+        run: echo "image-uri=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> "$GITHUB_OUTPUT"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: docker-build
+    if: github.event_name == 'push'
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      EC2_HOST: ${{ vars.EC2_HOST }}
+      EC2_USERNAME: ${{ vars.EC2_USERNAME }}
+      IMAGE_URI: ${{ needs.docker-build.outputs.image-uri }}
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Prepare SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key
+          chmod 600 ~/.ssh/ec2_key
+
+      - name: Deploy Docker container to EC2
+        run: |
+          ECR_REGISTRY=$(echo "$IMAGE_URI" | cut -d/ -f1)
+          ECR_PASSWORD=$(aws ecr get-login-password --region "$AWS_REGION")
+
+          ssh -i ~/.ssh/ec2_key -o StrictHostKeyChecking=no "$EC2_USERNAME@$EC2_HOST" "
+            echo '$ECR_PASSWORD' | docker login --username AWS --password-stdin '$ECR_REGISTRY' &&
+            docker pull '$IMAGE_URI' &&
+            docker stop churn-prediction-api || true &&
+            docker rm churn-prediction-api || true &&
+            docker run -d --name churn-prediction-api --restart unless-stopped -p 8000:8000 '$IMAGE_URI'
+          "
