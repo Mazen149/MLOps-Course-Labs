@@ -5,9 +5,15 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "hyperdx-opentelemetry>=0.3.0",
     "joblib>=1.5.3",
     "litestar[standard]>=2.21.1",
+    "opentelemetry-api>=1.30.0",
+    "opentelemetry-exporter-otlp>=1.30.0",
+    "opentelemetry-sdk>=1.30.0",
+    "pandas>=3.0.3",
     "pydantic>=2.13.4",
+    "python-dotenv>=1.2.2",
     "scikit-learn==1.6.1",
 ]
 
