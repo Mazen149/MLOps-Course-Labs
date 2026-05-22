@@ -119,5 +119,5 @@ jobs:
             docker pull '$IMAGE_URI' &&
             docker stop churn-prediction-api || true &&
             docker rm churn-prediction-api || true &&
-            docker run -d --name churn-prediction-api --restart unless-stopped -p 8000:8000 '$IMAGE_URI'
+            docker run -d --name churn-prediction-api --restart unless-stopped -p 443:8000 '$IMAGE_URI'
           "
