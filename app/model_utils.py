@@ -4,14 +4,15 @@ Model loading and prediction logic.
 The model must be loaded ONCE at module level, NOT inside the predict function.
 """
 
+from pathlib import Path
+
 import joblib
 import pandas as pd
 
 # TODO 1: Load your serialized churn model from data/model.joblib
-model = joblib.load(r"D:\ITI\ITI Courses\26) MLOps\Labs\Lab 1\data\model.pkl")
-preprocessor = joblib.load(
-    r"D:\ITI\ITI Courses\26) MLOps\Labs\Lab 1\data\preprocessor.pkl"
-)
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
+model = joblib.load(DATA_DIR / "model.pkl")
+preprocessor = joblib.load(DATA_DIR / "preprocessor.pkl")
 
 
 def predict_churn(features: list) -> int:
