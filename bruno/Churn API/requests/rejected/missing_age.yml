@@ -1,0 +1,22 @@
+info:
+  name: missing_age
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/predict"
+  body:
+    type: json
+    data: |-
+      {
+        "credit_score": 600,
+        "tenure": 3,
+        "balance": 0.0,
+        "num_of_products": 1,
+        "has_cr_card": 1,
+        "is_active_member": 1,
+        "estimated_salary": 50000.0,
+        "geography": "France",
+        "gender": "Female"
+      }
